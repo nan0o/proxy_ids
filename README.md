@@ -51,3 +51,21 @@ también buscando algo sospechoso para notificar al administrador.
 No estamos seguros todavía de hasta donde llegar con lo de HIDS y NIDS, porque
 primero tenemos que investigar de qué se tratan, en qué ayudan, y si tiene
 sentido implementarlos en una red como la propuesta.
+
+## Comandos docker
+
+### Ejecutar un docker
+
+```
+cd python-prueba
+docker build -t python-prueba .
+docker run -it -p 8080:8080 python-prueba
+```
+
+### Modificar y volver a correr
+
+```
+cd python-prueba
+docker build -t python-prueba .
+docker run -it -p 8080:8080 python-prueba
+```
