@@ -1,6 +1,11 @@
 # proxy_ids
 trabajo final de redes de informacion
 
+## Varios
+
+- Nombre empresa: `teleconet`.
+- Dirección empresa: `teleconet.mbernardi.com.ar`.
+
 ## Consigna 1
 
 Implementación de un grupo de servidores para una empresa, que consista de
