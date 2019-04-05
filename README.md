@@ -69,3 +69,11 @@ cd python-prueba
 docker build -t python-prueba .
 docker run -it -p 8080:8080 python-prueba
 ```
+
+## Configuraciones GNS3
+
+R1
+
+```
+ip address add interface=ether2 address=10.0.0.1/24
+```
