@@ -57,7 +57,7 @@ No estamos seguros todavía de hasta donde llegar con lo de HIDS y NIDS, porque
 primero tenemos que investigar de qué se tratan, en qué ayudan, y si tiene
 sentido implementarlos en una red como la propuesta.
 
-## Comandos docker
+## Comandos docker sin GNS3
 
 ### Ejecutar un docker
 
@@ -67,23 +67,45 @@ docker build -t python-prueba .
 docker run -it -p 8080:8080 python-prueba
 ```
 
-### Modificar y volver a correr
-
-```
-cd python-prueba
-docker build -t python-prueba .
-docker run -it -p 8080:8080 python-prueba
-```
+Para volver a correr son los mismos comandos
 
 ## Configuraciones GNS3
 
-R1
+### Configuración inicial
 
+#### R1
+
+Esto se hizo dentro de una consola del Router, pero no se debe hacer nunca más.
 ```
 ip address add interface=ether2 address=10.0.0.1/24
 ```
-### Comando openssl
+
+#### Máquinas
+
+Esto se corre en tu PC.
+
+```
+cd docker
+docker build -t reverse_proxy ./reverse_proxy
+docker build -t servidor_web ./servidor_web
+docker build -t servidor_archivos ./servidor_archivos
+```
+
+Después dentro de GNS3 hay que importar esos Dockers y darles IPs haciendo click
+derecho y yendo a "Edit config".
+
+### Modificación
+
+Si se modifica algún Dockerfile, hay que volver a hacer build. Después en GNS3
+se duplica la máquina modificada y se borra la anterior, de esa forma estamos
+creando una máquina nueva que tiene la nueva build de Docker pero que además
+mantiene las configuraciones de red hechas en "Edit config".
+
+## Comando openssl
+
+```
 openssl req -x509 -sha256 -newkey rsa:4096 -nodes -keyout teleconet.mbernardi.com.ar.key -out teleconet.mbernardi.com.ar.crt -days 365 -subj "/CN=AR/ST=Cordoba/L=Rio Cuarto/O=teleconet/OU=tn/CN=teleconet.mbernadi.com.ar"
+```
 
 - req es de request
 - -sha256 es el modo que usa para crear el hash, este de 256 bits.
