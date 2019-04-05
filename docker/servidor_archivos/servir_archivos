@@ -1,10 +1,17 @@
 server {
-    root /var/www; # carpeta desde donde empezar a buscar
+    root /var/www/Teleconet; # carpeta desde donde empezar a buscar
     listen 80; # ip y puerto
     location / {
-        autoindex on;
+        fancyindex on;
+        fancyindex_localtime on;
+        fancyindex_exact_size off;
+        fancyindex_header "/archivos-dark-theme/header.html";
+        fancyindex_footer "/archivos-dark-theme/footer.html";
+        fancyindex_ignore "archivos-dark-theme";
+
         # First attempt to serve request as file, then
         # as directory, then fall back to displaying a 404.
         #try_files $uri $uri/ =404;
     }
+
 }
