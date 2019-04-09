@@ -143,8 +143,10 @@ había ninguna regla.
   
   direction va "->". Eso significa que ves lo que vaya de la "source ip source port" a "dest ip dest port" 
   
-  Entre paréntesis indicás lo que queres hacer con la regla por ejemplo si tenes (msg: "SCAN SYN FIN"; flow:stateless ; flags: SF,12 ; reference: ; classtype: ; sid: ; rev: )
-  
+  Entre paréntesis indicás lo que queres hacer con la regla por ejemplo si tenes 
+  ```
+  (msg: "SCAN SYN FIN"; flow:stateless ; flags: SF,12 ; reference: ; classtype: ; sid: ; rev: )
+  ```
   - msg: es lo que envias al admin cuando ocurre la regla
   - flow: established (TCP established), not established (no TCP connection established), stateless (either established or not established)
   - flags: en el caso de tcp puede ser de tipo SYN, FIN, PSH, URG, RST, or ACK. En el caso de ejemplo como quiere los de SYN y FIN pone SF y el 12 es notacion vieja, significa que ignoras eso. Ahora se usa por ejemplo CE en vez del doce que indica que ignora CWR (bit 1 reservado) y ECN (bit 2 reservado)
