@@ -139,6 +139,8 @@ había ninguna regla.
   
   source ip, source port, dest ip y dest port: es transparente. Si le pones el signo de exclamacion (!) adelante invierte la regla. Si queres un rango de puertos por ejemplo le pones como 1:10. Si queres cualquier ip o puerto le pones "any". Para la ip se le puede poner 192.168.0.1/24
   
+  Para el caso que en el campo de source ip, podes definir variables como listas o solo una ip en el archivo snort.conf y despues cuando creas la regla en el archivo .rules le pones $Nombre_variable que creaste.
+  
   direction va "->". Eso significa que ves lo que vaya de la "source ip source port" a "dest ip dest port" 
   
   Entre paréntesis indicás lo que queres hacer con la regla por ejemplo si tenes (msg: "SCAN SYN FIN"; flow:stateless ; flags: SF,12 ; reference: ; classtype: ; sid: ; rev: )
@@ -149,5 +151,3 @@ había ninguna regla.
   - reference: sirve para obtener mas info de los ataques, porque te manda a una pagina que vos pongas ahi donde se encuentra el IDS del ataque.
   - classtype: es como que ya te vas al pasto, por que es como que estableces el tipo de ataque y la prioridad que hay de 1 a 4.
   - sid y rev se utilizan para identificar el numero de la regla.
-
-Para el caso que en el campo de source ip, podes definir variables como listas o solo una ip en el archivo snort.conf y despues cuando creas la regla en el archivo .rules le pones $Nombre_variable que creaste.
