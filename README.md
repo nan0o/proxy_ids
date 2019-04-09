@@ -152,4 +152,4 @@ había ninguna regla.
   - flags: en el caso de tcp puede ser de tipo SYN, FIN, PSH, URG, RST, or ACK. En el caso de ejemplo como quiere los de SYN y FIN pone SF y el 12 es notacion vieja, significa que ignoras eso. Ahora se usa por ejemplo CE en vez del doce que indica que ignora CWR (bit 1 reservado) y ECN (bit 2 reservado)
   - reference: sirve para obtener mas info de los ataques, porque te manda a una pagina que vos pongas ahi donde se encuentra el IDS del ataque.
   - classtype: es como que ya te vas al pasto, por que es como que estableces el tipo de ataque y la prioridad que hay de 1 a 4.
-  - sid y rev se utilizan para identificar el numero de la regla.
+  - sid y rev se utilizan para identificar el numero de la regla. Es obligatorio cuando creas una regla y se usan numeros de sid mayores a 1 millon porque para abajo creo que estan todas reservadas.
