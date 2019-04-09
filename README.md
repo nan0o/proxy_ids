@@ -125,7 +125,9 @@ había ninguna regla.
 
 ### Reglas
 
+```
 <rule action> <protocol> [!]<source ip> [!]<source port> <direction> <dest ip> <dest port> <rule options> (aca van otras cosas que son las que ejecuta)
+```
   
   rule action puede ser:
   - alert: manda una alerta al administrador
