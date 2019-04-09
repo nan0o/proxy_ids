@@ -1,4 +1,5 @@
 # proxy_ids
+
 trabajo final de redes de informacion
 
 ## Varios
@@ -89,6 +90,7 @@ cd docker
 docker build -t reverse_proxy ./reverse_proxy
 docker build -t servidor_web ./servidor_web
 docker build -t servidor_archivos ./servidor_archivos
+docker build -t snort_nids ./docker/snort_nids
 ```
 
 Después dentro de GNS3 hay que importar esos Dockers y darles IPs haciendo click
@@ -115,3 +117,13 @@ openssl req -x509 -sha256 -newkey rsa:4096 -nodes -keyout teleconet.mbernardi.co
 - -out el nombre del certificado a la salida
 - -days la duración de validez del certificado
 - -subj es para darle lo que necesitas para crear el certificado (pais, provincia, ciudad, empresa,etc)
+
+## SNORT
+
+Para las configuraciones partimos de lo que venía en `/etc/snort/` en Fedora, no
+había ninguna regla.
+
+
+
+alert
+log
