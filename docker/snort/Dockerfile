@@ -18,6 +18,7 @@ RUN apt-get update && \
         libnetfilter-queue1 \
         tcpdump \
         unzip \
+		libluajit-5.1-dev \
         vim && pip install -U pip dpkt snortunsock
 
 # Define working directory.
@@ -29,7 +30,15 @@ RUN wget https://www.snort.org/downloads/snort/daq-${DAQ_VERSION}.tar.gz \
     && cd daq-${DAQ_VERSION} \
     && ./configure; make; make install
 
-ENV SNORT_VERSION 2.9.8.2
+# luajit
+ENV LUAJIT_VERSION 2.0.5
+RUN wget https://luajit.org/download/LuaJIT-${LUAJIT_VERSION}.tar.gz \
+    && tar xvfz LuaJIT-${LUAJIT_VERSION}.tar.gz \
+    && cd LuaJIT-${LUAJIT_VERSION} \
+    && make; make install \
+	&& ln -s /usr/local/include/luajit-2.0/* /usr/local/include/
+
+ENV SNORT_VERSION 2.9.12
 RUN wget https://www.snort.org/downloads/snort/snort-${SNORT_VERSION}.tar.gz \
     && tar xvfz snort-${SNORT_VERSION}.tar.gz \
     && cd snort-${SNORT_VERSION} \
@@ -57,7 +66,6 @@ RUN mkdir -p /var/log/snort && \
     # mkdir -p /etc/snort/preproc_rules && \
     # mkdir -p /etc/snort/so_rules && \
     # mkdir -p /etc/snort/etc && \
-
     # mysnortrules rules
     cp -r /opt/rules /etc/snort/rules && \
     # Due to empty folder so mkdir
@@ -66,13 +74,11 @@ RUN mkdir -p /var/log/snort && \
     # cp -r /opt/preproc_rules /etc/snort/preproc_rules && \
     # cp -r /opt/so_rules /etc/snort/so_rules && \
     cp -r /opt/etc /etc/snort/etc && \
-
     # snapshot2972 rules
     # cp -r /opt/rules /etc/snort/rules && \
     # cp -r /opt/preproc_rules /etc/snort/preproc_rules && \
     # cp -r /opt/so_rules /etc/snort/so_rules && \
     # cp -r /opt/etc /etc/snort/etc && \
-
     # touch /etc/snort/rules/local.rules && \
     touch /etc/snort/rules/white_list.rules /etc/snort/rules/black_list.rules
 
@@ -84,5 +90,4 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
 ENV NETWORK_INTERFACE eth0
 # Validate an installation
 # snort -T -i eth0 -c /etc/snort/etc/snort.conf
-CMD ["snort", "-T", "-i", "echo ${NETWORK_INTERFACE}", "-c",
-"/etc/snort/etc/snort.conf"]
+CMD ["snort", "-T", "-i", "echo ${NETWORK_INTERFACE}", "-c", "/etc/snort/etc/snort.conf"]
