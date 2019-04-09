@@ -103,7 +103,7 @@ se duplica la máquina modificada y se borra la anterior, de esa forma estamos
 creando una máquina nueva que tiene la nueva build de Docker pero que además
 mantiene las configuraciones de red hechas en "Edit config".
 
-## Comando openssl
+### Comando openssl
 
 ```
 openssl req -x509 -sha256 -newkey rsa:4096 -nodes -keyout teleconet.mbernardi.com.ar.key -out teleconet.mbernardi.com.ar.crt -days 365 -subj "/CN=AR/ST=Cordoba/L=Rio Cuarto/O=teleconet/OU=tn/CN=teleconet.mbernadi.com.ar"
@@ -123,7 +123,16 @@ openssl req -x509 -sha256 -newkey rsa:4096 -nodes -keyout teleconet.mbernardi.co
 Para las configuraciones partimos de lo que venía en `/etc/snort/` en Fedora, no
 había ninguna regla.
 
+### Reglas
 
-
-alert
-log
+<rule action> <protocol> [!]<source ip> [!]<source port> <direction> <dest ip> <dest port> <rule options>
+  
+  rule action puede ser:
+  - alert: manda una alerta al administrador
+  - log: es una segunda opcion, cuando no queres mandar una alerta pero queres dejar registrado un evento en especial
+  - pass: en un lado lei que hace drop y en otro que deja pasar derecho, creo que tiene mas sentido la segunda
+  - activate: si ocurre, se activan otras reglas
+  
+  protocol (TCP, UDP, ICMP para el ping)
+  
+  source ip, source port, dest ip y dest port: es transparente. Si le pones el signo de exclamacion (!) adelante invierte la regla. Si queres un rango de puertos por ejemplo le pones como 1:10. Si queres cualquier ip o puerto le pones "any". Para la ip se le puede poner 192.168.0.1/24
