@@ -1,0 +1,5 @@
+
+# Alertar paquetes desde o hacia servidores no existentes en nuestra red.
+
+alert icmp $HOME_UNKNOWN any -> any any (msg:"Paquete desde IP interna desconocida"; sid:1000001; rev:1;)
+alert icmp any any -> $HOME_UNKNOWN any (msg:"Paquete hacia IP interna desconocida"; sid:1000002; rev:1;)
