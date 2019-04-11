@@ -2,8 +2,10 @@ FROM fedora:29
 
 RUN set -x
 
+# props: Porque necesitaba el comando `ps` para debugging
+
 RUN dnf -y install https://forensics.cert.org/cert-forensics-tools-release-29.rpm \
-    && dnf -y install snort openssh-server
+    && dnf -y install snort openssh-server procps
 
 RUN rm -r /etc/snort
 
