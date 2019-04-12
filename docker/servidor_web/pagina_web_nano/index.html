@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8"/>
+    <title>Teleconet</title>
+    <link href="styles.css" rel="stylesheet">
+</head>
+
+<body>
+    <header>
+        <img id="banners" src="banner.png">
+        <nav id="links">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li>Descargas</li>
+            </ul>
+    </header>
+
+    <section id="principal">
+        <h2>Trabajo final Redes de Información</h1>
+        <section>
+            <h3>Consigna 1</h2>
+                <p>Implementación de un grupo de servidores para una empresa,
+                que consista de diferentes servidores ubicados en diferentes máquinas</p>
+                <ul>
+                <li>Un proxy reverso con seguridad (HTTPS).</li>
+                <li>Un servidor web para una página web estática.</li>
+                <li>Un servidor de archivos simple HTTP.</li>
+                <li>Sistema de detección de intrusos HIDS, uno en cada máquina.</li>
+                <li>Sistema de detección de intrusos NIDS para la red.</li>
+                </ul>
+            <h3>Consigna 2</h3>
+                <p>Este es el diagrama de red que vamos a implementar en un principio.
+                Para hacer fácil las simulaciones vamos a intentar hacer todo dentro de
+                GNS3 usando máquinas virtuales.</p>
+                <img id="diagrama" src="diagrama.jpg">
+                <p>Es una simulación de la red de una empresa pequeña, entonces usaríamos un router común, que tenga NAT y una "IP pública".
+                Ese router tendría abiertos los puertos 80 y 442 que apunten al proxy inverso. A diferencia del router, las máquinas van a ser
+                virtuales y van a estar todas en la misma red. Los dos servidores web se acceden a través del proxy inverso.
+                Eso es lo que tenemos pensado hacer relativo a los servicios web, que es lo primero que vamos a implementar, después tenemos pensado implementar HIDS y NIDS.
+                En principio pensamos usar como HIDS a fail2ban, entonces dentro de cada servidor debería haber un fail2ban que monitoree los logs y que notifique al administrador
+                cuando haya algo sospechoso. Por lo menos queremos detectar cuando alguien está haciendo algún tipo de escaneo en el sitio web. Si vemos que vale la pena podríamos usar a OSSEC que parece más completo en lugar de fail2ban.
+                En una máquina aparte habría un NIDS como por ejemplo Snort que snifee la red también buscando algo sospechoso para notificar al administrador.
+                No estamos seguros todavía de hasta donde llegar con lo de HIDS y NIDS, porque primero tenemos que investigar de qué se tratan, en qué ayudan, y si tiene sentido implementarlos en una red como la propuesta.</p>
+        </section>
+    </section>
+
+    <footer>
+        <img id="banners" src="banner_footer.png">
+        <ul id="footer-list">
+            <li>UNRC - Redes de información</li>
+            <li>Bernardi,Martin</li>
+            <li>Remedi, Augusto</li>
+            <li>Rittano, Ignacio</li>
+        </ul>
+    </footer>
+
+</body>
+</html>

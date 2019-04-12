@@ -1,0 +1,44 @@
+header, footer {
+    position: relative;
+    height: 150px;
+
+}
+#links{
+    position: absolute;
+    bottom: 0;
+}
+#links ul li {
+    display: inline;
+    list-style-type: none;
+}
+#banners {
+    position: absolute;
+    display: block;
+    height: 100%;
+    width: 100%;
+    border-style: none;
+}
+
+#diagrama {
+    display: block; /* bloque que cubre todo el ancho de la pantalla*/
+    margin-left: auto; /* identado para centrar la imagen */
+    margin-right: auto;
+    width: 50%;
+    height: 50%;
+    border-style: solid;
+    border-width: 1px;
+}
+#principal {
+    display: block;
+    margin-left: 80px;
+    margin-right: 80px
+}
+h2,h3 {
+    text-align: center;
+}
+#footer-list{
+    position: absolute;
+    top: 10px;
+    margin-right: 30px;
+    list-style-type: none;
+}
