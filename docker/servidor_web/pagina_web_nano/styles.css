@@ -1,3 +1,6 @@
+body{
+	margin: 0;
+}
 header, footer {
     position: relative;
     height: 150px;
@@ -5,12 +8,28 @@ header, footer {
 }
 #links{
     position: absolute;
-    bottom: 0;
+    bottom: 10px;
+	left: 80px;
 }
 #links ul li {
-    display: inline;
-    list-style-type: none;
+	display: inline;
+	list-style-type: none;
+	padding: 10px 20px;
+	background-color: whitesmoke;
+	text-decoration: none;
+	border-style: solid;
+	border-color: darkturquoise;
+	border-width: 2px;
+	border-radius: 10px;
 }
+#links a:link, a:visited{
+	text-decoration: none;
+	color: black;
+}
+#links a:hover, a:active{
+	font-weight: bold;
+}
+
 #banners {
     position: absolute;
     display: block;
@@ -23,15 +42,16 @@ header, footer {
     display: block; /* bloque que cubre todo el ancho de la pantalla*/
     margin-left: auto; /* identado para centrar la imagen */
     margin-right: auto;
-    width: 50%;
-    height: 50%;
+    width: 70%;
+    height: 70%;
     border-style: solid;
     border-width: 1px;
     border-color: lightblue;
 }
 #principal {
     display: block;
-    border-style: solid;
+    border-left-style: solid;
+	border-right-style: solid;
     border-width: 2px;
     border-color: lightblue;
     border-left-width: 100px;
