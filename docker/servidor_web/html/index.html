@@ -1,93 +1,62 @@
-<!DOCTYPE html>
-<html lang="es-ES" dir="ltr">
+<!doctype html>
+<html>
+
 <head>
-<title>Teleconet</title>
-<meta charset="UTF-8">
-<link rel="stylesheet" href="styles/layout.css" type="text/css">
-<!--[if lt IE 9]><script src="scripts/html5shiv.js"></script><![endif]-->
+    <meta charset="utf-8"/>
+    <title>Teleconet</title>
+    <link href="styles.css" rel="stylesheet">
 </head>
+
 <body>
-<div class="wrapper row1">
-  <header id="header" class="clear">
-    <div id="hgroup">
-      <h1><a href="#">Teleconet</a></h1>
-      <h2>Los del nombre re cualquiera</h2>
-    </div>
-    <form action="#" method="post">
-      <fieldset>
-        <legend>Search:</legend>
-        <input type="text" value="Search Our Website&hellip;" onFocus="this.value=(this.value=='Search Our Website&hellip;')? '' : this.value ;">
-        <input type="submit" id="sf_submit" value="submit">
-      </fieldset>
-    </form>
-    <nav>
-      <ul>
-        <li><a href="#">Home</a></li>
-        <li><a href="#">Servicios</a></li>
-        <li><a href="#">Galeria</a></li>
-        <li><a href="#">Contactanos</a></li>
-        <li class="last"><a href="#">No se que poner</a></li>
-      </ul>
-    </nav>
-  </header>
-</div>
-<!-- content -->
-<div class="wrapper row2">
-  <div id="container" class="clear">
-    <!-- content body -->
-    <section id="slider"><a href="#"><img src="images/demo/960x360.gif" alt=""></a></section>
-    <section id="shout">
-      <p>Aca va un chamuyo de la empresa como que venimos sirviendo hace tantos años</p>
+    <header>
+        <img id="banners" src="banner.png">
+        <nav id="links">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="/archivos">Descargas</a></li>
+            </ul>
+    </header>
+
+    <section id="principal">
+        <h2>Trabajo final Redes de Información</h2>
+        <section>
+            <h3>Consigna 1</h3>
+                <p>Implementación de un grupo de servidores para una empresa,
+                que consista de diferentes servidores ubicados en diferentes máquinas</p>
+                <ul>
+                <li>Un proxy reverso con seguridad (HTTPS).</li>
+                <li>Un servidor web para una página web estática.</li>
+                <li>Un servidor de archivos simple HTTP.</li>
+                <li>Sistema de detección de intrusos HIDS, uno en cada máquina.</li>
+                <li>Sistema de detección de intrusos NIDS para la red.</li>
+                </ul>
+            <h3>Consigna 2</h3>
+                <p>Este es el diagrama de red que vamos a implementar en un principio.
+                Para hacer fácil las simulaciones vamos a intentar hacer todo dentro de
+                GNS3 usando máquinas virtuales.</p>
+                <img id="diagrama" src="diagrama.jpg">
+                <p>Es una simulación de la red de una empresa pequeña, entonces usaríamos un router común, que tenga NAT y una "IP pública".
+                Ese router tendría abiertos los puertos 80 y 442 que apunten al proxy inverso. A diferencia del router, las máquinas van a ser
+                virtuales y van a estar todas en la misma red. Los dos servidores web se acceden a través del proxy inverso.
+                Eso es lo que tenemos pensado hacer relativo a los servicios web, que es lo primero que vamos a implementar, después tenemos pensado implementar HIDS y NIDS.
+                En principio pensamos usar como HIDS a fail2ban, entonces dentro de cada servidor debería haber un fail2ban que monitoree los logs y que notifique al administrador
+                cuando haya algo sospechoso. Por lo menos queremos detectar cuando alguien está haciendo algún tipo de escaneo en el sitio web. Si vemos que vale la pena podríamos usar a OSSEC que parece más completo en lugar de fail2ban.
+                En una máquina aparte habría un NIDS como por ejemplo Snort que snifee la red también buscando algo sospechoso para notificar al administrador.
+                No estamos seguros todavía de hasta donde llegar con lo de HIDS y NIDS, porque primero tenemos que investigar de qué se tratan, en qué ayudan, y si tiene sentido implementarlos en una red como la propuesta.</p>
+        </section>
     </section>
-    <!-- main content -->
-    <div id="homepage">
-      <!-- services area -->
-      <h1>Sobre nosotros</h1>
-      <section id="services" class="clear">
-        <p>Aca va mas chamuyo de la empresa </p>
-      </section>
-      <!-- / services area -->
-      <!-- ########################################################################################## -->
-      <!-- ########################################################################################## -->
-      <!-- ########################################################################################## -->
-      <!-- ########################################################################################## -->
-      <!-- One Quarter -->
-      <h1>Imagenes si queremos poner</h1>
-      <section id="latest" class="last clear">
-        <article class="one_quarter">
-          <figure><img src="images/demo/215x315.gif" width="215" height="315" alt="">
-            <figcaption>Nombre de la imagen si pinta</figcaption>
-          </figure>
-        </article>
-        <article class="one_quarter">
-          <figure><img src="images/demo/215x315.gif" width="215" height="315" alt="">
-            <figcaption>Image Caption Here</figcaption>
-          </figure>
-        </article>
-        <article class="one_quarter">
-          <figure><img src="images/demo/215x315.gif" width="215" height="315" alt="">
-            <figcaption>Image Caption Here</figcaption>
-          </figure>
-        </article>
-        <article class="one_quarter lastbox">
-          <figure><img src="images/demo/215x315.gif" width="215" height="315" alt="">
-            <figcaption>Image Caption Here</figcaption>
-          </figure>
-        </article>
-      </section>
-      <!-- / One Quarter -->
-    </div>
-    <!-- / content body -->
-  </div>
-</div>
-<!-- Footer -->
-<div class="wrapper row3">
-  <footer id="footer" class="clear">
-    <p class="fl_left">UNRC <a href="#"> </br> Redes de Información</a></p>
-    <p class="fl_right">Bernardi Martín<a target="_blank" href=# title="Información de contacto"></a></p></br>
-    <p class="fl_right">Remedi Augusto<a target="_blank" href=# title="Información de contacto"></a></p></br>
-    <p class="fl_right">Rittano Ignacio<a target="_blank" href=# title="Información de contacto"></a></p>
-  </footer>
-</div>
+
+    <footer>
+        <img id="banners" src="banner_footer.png">
+        <ul id="footer-list">
+            <li>UNRC - Redes de información</li>
+                <ul style="list-style-type:square;">
+                <li>Bernardi,Martin</li>
+                <li>Remedi, Augusto</li>
+                <li>Rittano, Ignacio</li>
+                </ul>
+        </ul>
+    </footer>
+
 </body>
 </html>
