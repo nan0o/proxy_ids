@@ -117,6 +117,9 @@ Nuestra prioridad es detectar tráfico que indique:
 Hay que tener en cuenta que el router de la empresa ya funciona como un firewall
 básico y no debería haber tráfico que no sea por los puertos 80 y 443.
 
+Existen disponibles reglas creadas por la comunidad de usuarios en
+https://www.snort.org/downloads
+
 Arquitectura
 ------------
 
