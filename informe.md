@@ -1,7 +1,7 @@
 Problemática
 ============
 
-Se planteó el problema de administrar la red de una empresa pequeña y crear un servidor web de la página principal de la empresa y otro servidor web en donde se encuentran archivos disponibles para la descarga. Al contar solo con una salida a internet, es necesario el uso de alguna herramienta que permita tener varios servidores en una misma dirección IP. A esto se lo conoce como proxy inverso, una herramienta que permite redireccionar solicitudes dependiendo el destino que tengan estas consultas. Para mayor seguridad, fue solicitado la instalación de un servidor de detección de intrusos, para que quede registrado cualquier tipo de evento no autorizado dentro de la red. La red a implementar es la siguiente:
+Se planteó el problema de administrar la red de una empresa pequeña y crear un servidor web para la página principal de la empresa y otro en donde se encuentran archivos disponibles para la descarga. Al contar solo con una salida a internet, es necesario el uso de alguna herramienta que permita tener varios servidores en una misma dirección IP. A esto se lo conoce como proxy inverso, una herramienta que permite redireccionar solicitudes dependiendo el destino que tengan estas consultas. Para mayor seguridad, fue solicitado la instalación de un servidor de detección de intrusos, que registre cualquier tipo de evento no autorizado dentro de la red. La red a implementar es la siguiente:
 
 ![Diagrama](./varios/diagrama.jpg)
 
@@ -10,46 +10,24 @@ Implementación
 
 Servidor Web y Archivos
 =======================
-Para implementar el servidor web de la empresa se utilizó Docker. Como servidor
-web, se utilizó nginx, también se podría haber usado apache, pero como ya lo
-probamos decidimos usar nginx.
-Está compuesto por tres archivos:
-- **Dockerfile**: Contiene los pasos necesarios para el correcto funcionamiento del
-  contenedor, como la instalación de nginx, comandos para ejecutar el servidor y
-  copia de archivos necesarios.
-- **Archivo de configuración de nginx**: Este se encarga de configurar nginx de
-  forma tal que sepa en qué carpeta brindar el servicio y el puerto a escuchar.
+Para la implementación del servidor de la página principal de la empresa se hizo uso de la herramienta NGINX 
+Está compuesto por dos archivos:
+- **Archivo de configuración de nginx**: Este se encarga de configurar nginx de forma tal que sepa en qué carpeta brindar el servicio y el puerto a escuchar.
 - **Página html**: Contiene los archivos html, css y las imágenes de la página.
 
-El servidor de archivos es similar, con la diferencia de que no creamos una
-página html, sino que creamos una carpeta con los archivos a servir de la
-empresa. También se utilizó un módulo dentro del archivo de configuración de
-nginx llamado _auto-index_. Este procesa las peticiones que terminan con el
-caracter ('/') y produce una lista de directorios.
+El servidor de archivos es similar, con la diferencia de que no creamos una página html, sino que creamos una carpeta con los archivos a servir de la empresa. También se utilizó un módulo dentro del archivo de configuración de nginx llamado _auto-index_. Este procesa las peticiones que terminan con el caracter ('/') y produce una lista de directorios.
 
-Sin embargo, el servidor web y archivos se encuentran separados en distintos
-contenedores, como si fuesen distintos hosts dentro de la empresa, de forma tal
-que el proxy reverso sea el encargado de redirigir el tráfico al correspondiente.
+Sin embargo, el servidor web y archivos se encuentran separados en distintos servidores, es decir, como distintos hosts dentro de la empresa, de forma tal que el proxy reverso se encargue de redirigir el tráfico al correspondiente.
 
 HTML Y CSS
 ----------
-HTML (Hyper Text Markup Language) es el lenguaje estándar de marcado en el
-diseño de páginas web. Un lenguaje de marcado o marcas es uno en el cual el texto
-va acompañado de marcas o etiquetas que contienen información adicional sobre
-la estructura del documento. 
-CSS (Cascading Style Sheets) describe el formato de presentación de una página
-html. Sirve para ahorrar trabajo cuando se tienen varias páginas web a servir.
-La forma más común de implementación es crear los estilos de los elementos html
-en un archivo externo y después importarlo en el documento.
+HTML (Hyper Text Markup Language) es el lenguaje estándar de marcado en el diseño de páginas web. Un lenguaje de marcado o marcas es uno en el cual el texto va acompañado de marcas o etiquetas que contienen información adicional sobre la estructura del documento. CSS (Cascading Style Sheets) describe el formato de presentación de una página html. Sirve para ahorrar trabajo cuando se tienen varias páginas web a servir. La forma más común de implementación es crear los estilos de los elementos html en un archivo externo y después importarlo en el documento.
 
-El diseño de la página se realizó en HTML5 y en CSS desde cero. Existen varias
-modificaciones en esta versión de HTML como la incorporación de soporte nativo
-para JavaScript, cambios en la semántica de la estructura del documento, etc..
+El diseño de la página se realizó en HTML5 y en CSS desde cero. Existen varias modificaciones en esta versión de HTML como la incorporación de soporte nativo para JavaScript, cambios en la semántica de la estructura del documento, etc..
 
 ![Dif HTML](https://www.hostinger.com/tutorials/wp-content/uploads/sites/2/2017/03/differences-between-html-and-html5.png "Diferencias HTML y HTML5")
 
-En nuestra página, cuando alguien clickea el botón de "Descargas", es redireccionado
-al servidor de archivos que se encuentra en otro host por el proxy reverso. 
+En nuestra página, cuando alguien clickea el botón de "Descargas", es redireccionado al servidor de archivos que se encuentra en otro host por el proxy reverso. 
 
 Reverse Proxy
 =============
@@ -98,11 +76,9 @@ Snort NIDS
 
 Snort se puede utilizar de tres formas:
 
-- Sniffer mode: Lee paquetes presentes en la red y los muestra en la consola,
-  similar a Wireshark.
+- Sniffer mode: Lee paquetes presentes en la red y los muestra en la consola, similar a Wireshark.
 
-- Packet logger mode: Lee paquetes presentes en la red y los guarda en un
-  archivo.
+- Packet logger mode: Lee paquetes presentes en la red y los guarda en un archivo.
 
 - Network Intrusion Detection System (NIDS) mode: Lee paquetes presentes en la
   red y los analiza para determinar si es necesario realizar una acción. Puede
@@ -195,3 +171,6 @@ http://manual-snort-org.s3-website-us-east-1.amazonaws.com/
 
 Docker y GNS3
 =============
+- **Dockerfile**: Contiene los pasos necesarios para el correcto funcionamiento del
+  contenedor, como la instalación de nginx, comandos para ejecutar el servidor y
+  copia de archivos necesarios.
