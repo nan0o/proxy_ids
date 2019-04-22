@@ -10,51 +10,29 @@ Implementación
 
 Servidor Web y Archivos
 =======================
-Para implementar el servidor web de la empresa se utilizó Docker. Como servidor
-web, se utilizó nginx, también se podría haber usado apache, pero como ya lo
-probamos decidimos usar nginx.
-Está compuesto por tres archivos:
-- **Dockerfile**: Contiene los pasos necesarios para el correcto funcionamiento del
-  contenedor, como la instalación de nginx, comandos para ejecutar el servidor y
-  copia de archivos necesarios.
-- **Archivo de configuración de nginx**: Este se encarga de configurar nginx de
-  forma tal que sepa en qué carpeta brindar el servicio y el puerto a escuchar.
+Para la implementación del servidor de la página principal de la empresa se hizo uso de la herramienta NGINX 
+Está compuesto por dos archivos:
+- **Archivo de configuración de nginx**: Este se encarga de configurar nginx de forma tal que sepa en qué carpeta brindar el servicio y el puerto a escuchar.
 - **Página html**: Contiene los archivos html, css y las imágenes de la página.
 
-El servidor de archivos es similar, con la diferencia de que no creamos una
-página html, sino que creamos una carpeta con los archivos a servir de la
-empresa. También se utilizó un módulo dentro del archivo de configuración de
-nginx llamado _auto-index_. Este procesa las peticiones que terminan con el
-caracter ('/') y produce una lista de directorios.
+El servidor de archivos es similar, con la diferencia de que no creamos una página html, sino que creamos una carpeta con los archivos a servir de la empresa. También se utilizó un módulo dentro del archivo de configuración de nginx llamado _auto-index_. Este procesa las peticiones que terminan con el caracter ('/') y produce una lista de directorios.
 
-Sin embargo, el servidor web y archivos se encuentran separados en distintos
-contenedores, como si fuesen distintos hosts dentro de la empresa, de forma tal
-que el proxy reverso sea el encargado de redirigir el tráfico al correspondiente.
+Sin embargo, el servidor web y archivos se encuentran separados en distintos servidores, es decir, como distintos hosts dentro de la empresa, de forma tal que el proxy reverso se encargue de redirigir el tráfico al correspondiente.
 
 HTML Y CSS
 ----------
-HTML (Hyper Text Markup Language) es el lenguaje estándar de marcado en el
-diseño de páginas web. Un lenguaje de marcado o marcas es uno en el cual el texto
-va acompañado de marcas o etiquetas que contienen información adicional sobre
-la estructura del documento. 
-CSS (Cascading Style Sheets) describe el formato de presentación de una página
-html. Sirve para ahorrar trabajo cuando se tienen varias páginas web a servir.
-La forma más común de implementación es crear los estilos de los elementos html
-en un archivo externo y después importarlo en el documento.
+HTML (Hyper Text Markup Language) es el lenguaje estándar de marcado en el diseño de páginas web. Un lenguaje de marcado o marcas es uno en el cual el texto va acompañado de marcas o etiquetas que contienen información adicional sobre la estructura del documento. CSS (Cascading Style Sheets) describe el formato de presentación de una página html. Sirve para ahorrar trabajo cuando se tienen varias páginas web a servir. La forma más común de implementación es crear los estilos de los elementos html en un archivo externo y después importarlo en el documento.
 
-El diseño de la página se realizó en HTML5 y en CSS desde cero. Existen varias
-modificaciones en esta versión de HTML como la incorporación de soporte nativo
-para JavaScript, cambios en la semántica de la estructura del documento, etc..
+El diseño de la página se realizó en HTML5 y en CSS desde cero. Existen varias modificaciones en esta versión de HTML como la incorporación de soporte nativo para JavaScript, cambios en la semántica de la estructura del documento, etc.
 
 ![Dif HTML](https://www.hostinger.com/tutorials/wp-content/uploads/sites/2/2017/03/differences-between-html-and-html5.png "Diferencias HTML y HTML5")
 
-En nuestra página, cuando alguien clickea el botón de "Descargas", es redireccionado
-al servidor de archivos que se encuentra en otro host por el proxy reverso. 
+En la página principal, al clickear el botón de "Descargas", automáticamente es redireccionado al servidor de archivos que se encuentra en otro host por el proxy reverso. 
 
 Reverse Proxy
 =============
 El proxy inverso es un servidor que es capaz de manejar multiples servidores, por ejemplo web, php o python, y dividir las peticiones para cada uno de ellos individualmente. Por ejemplo, cuando un cliente desea ingresar a alguno de los servidores administrados por este proxy inverso, este redirecciona la petición al servidor indicado y devuelve al cliente lo solicitado. Una gran ventaja de esto es la posibilidad de tener múltiples servidores en una misma dirección IP.
-Para este trabajo se desarrolló un proxy inverso, que administra un servidor con la página web de la empresa y un servidor de archivos también como página web, mediante la herramienta NGINX. El server se realizó de la siguiente manera:
+Para este trabajo se desarrolló un proxy inverso, que administra los servidores ya mencionados anteriormente, mediante la herramienta NGINX. El servidor proxy inverso se realizó de la siguiente manera:
 
 ```
 server {
@@ -71,8 +49,6 @@ server {
 
 ```
 En esta parte del código de nginx se puede ver como se crea el servidor. Debido a que los servidores son solo http, el proxy inverso escucha en el puerto 80 y redirecciona de acuerdo a si la petición fue para la página principal o los archivos haciendo un proxy_pass a la IP indicada o bien puede ser a un dominio determinado en caso que exista un dns.
-
-https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy/ Página de nginx
 
 HTTPS
 -----
@@ -91,18 +67,14 @@ Para lograr que el servidor maneje https dentro del código en nginx se debe agr
 
 En nuestro caso, generamos un certificado firmado por nosotros con el nombre de la companía, lo cual no es lo óptimo ya que para un usuario externo a la red, no existe forma de comprobar la validez del certificado y que realmente somos nosotros los creadores y dueños de la página. La única forma mediante la cual puede estar seguro es si se le proporciona el certificado por otro medio que no sea por internet, por ejemplo por usb en forma presencial. Para poder generarlo se utilizó el comanto openssl req. Para evitar esto, a modo de mejora se podría crear un certificado con alguna certificadora confiable, por ejemplo lets encrypt la cual permite generar certificados gratuitos y confiables para cualquier usuario.
 
-¿Hace falta explicar TLS y ciphers? No hace falta
-
 Snort NIDS
 ==========
 
 Snort se puede utilizar de tres formas:
 
-- Sniffer mode: Lee paquetes presentes en la red y los muestra en la consola,
-  similar a Wireshark.
+- Sniffer mode: Lee paquetes presentes en la red y los muestra en la consola, similar a Wireshark.
 
-- Packet logger mode: Lee paquetes presentes en la red y los guarda en un
-  archivo.
+- Packet logger mode: Lee paquetes presentes en la red y los guarda en un archivo.
 
 - Network Intrusion Detection System (NIDS) mode: Lee paquetes presentes en la
   red y los analiza para determinar si es necesario realizar una acción. Puede
@@ -220,3 +192,6 @@ http://manual-snort-org.s3-website-us-east-1.amazonaws.com/
 
 Docker y GNS3
 =============
+- **Dockerfile**: Contiene los pasos necesarios para el correcto funcionamiento del
+  contenedor, como la instalación de nginx, comandos para ejecutar el servidor y
+  copia de archivos necesarios.

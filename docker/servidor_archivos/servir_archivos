@@ -1,7 +1,8 @@
 server {
-    root /var/www/Teleconet; # carpeta desde donde empezar a buscar
+    
     listen 80; # ip y puerto
-    location / {
+    location /archivos {
+        alias /var/www/Teleconet; # carpeta desde donde empezar a buscar
         fancyindex on;
         fancyindex_localtime on;
         fancyindex_exact_size off;
