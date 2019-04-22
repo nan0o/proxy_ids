@@ -190,10 +190,8 @@ Snort.
 
 http://manual-snort-org.s3-website-us-east-1.amazonaws.com/
 
-Docker y GNS3
-=============
-- **Dockerfile**: Contiene los pasos necesarios para el correcto funcionamiento del
-  contenedor, como la instalación de nginx, comandos para ejecutar el servidor y
-  copia de archivos necesarios.
+Simulación
+===========
+Debido a la imposibilidad de implementarlo físicamente por el momento, se realizó una simulación de la arquitectura de la red en el programa GNS3, lo cual permitió observar el funcionamiento de la misma. Para cada uno de los servidores presentes en la red se utilizó la herramienta de Docker, que genera un contenedor a partir de un archivo *Dockerfile* que contiene los pasos necesarios para el correcto funcionamiento, como por ejemplo la instalación de nginx, comandos para ejecutar el servidor y copia de archivos necesarios.
 
 ![Esquema](./Esquema.png)
