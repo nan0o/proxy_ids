@@ -6,8 +6,8 @@ server {
         fancyindex on;
         fancyindex_localtime on;
         fancyindex_exact_size off;
-        fancyindex_header "/archivos-dark-theme/header.html";
-        fancyindex_footer "/archivos-dark-theme/footer.html";
+        fancyindex_header "/archivos/archivos-dark-theme/header.html";
+        fancyindex_footer "/archivos/archivos-dark-theme/footer.html";
         fancyindex_ignore "archivos-dark-theme";
 
         # First attempt to serve request as file, then
