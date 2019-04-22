@@ -149,29 +149,26 @@ La sintaxis de cada regla lleva:
 
 - Luego entre paréntesis se colocan las opciones, algunas de ellas son:
 
-    - msg: Descripción
+    - msg: Descripción de la alerta generada.
 
-  ```
-  (msg: "SCAN SYN FIN"; flow:stateless ; flags: SF,12 ; reference: ; classtype: ; sid: ; rev: )
-  ```
-  - msg: es lo que envias al admin cuando ocurre la regla
-  - flow: established (TCP established), not established (no TCP connection established), stateless (either established or not established)
-  - flags: en el caso de tcp puede ser de tipo SYN, FIN, PSH, URG, RST, or ACK. En el caso de ejemplo como quiere los de SYN y FIN pone SF y el 12 es notacion vieja, significa que ignoras eso. Ahora se usa por ejemplo CE en vez del doce que indica que ignora CWR (bit 1 reservado) y ECN (bit 2 reservado)
-  - reference: sirve para obtener mas info de los ataques, porque te manda a una pagina que vos pongas ahi donde se encuentra el IDS del ataque.
-  - classtype: es como que ya te vas al pasto, por que es como que estableces el tipo de ataque y la prioridad que hay de 1 a 4.
-  - sid y rev se utilizan para identificar el numero de la regla. Es obligatorio cuando creas una regla y se usan numeros de sid mayores a 1 millon porque para abajo creo que estan todas reservadas.
+    - sid: Número que identifica a la alerta.
+
+    - rev: Número que identifica a la revisión de la alerta, en el caso que ésta
+      haya sido modificada.
+
+    - flags: En el caso de TCP permite especificar flags presentes en el
+      paquete.
+
+Por ejemplo las conexiones SSH se deberían originar normalmente sólo desde ls PC
+del administrador, puede ser útil generar alertas para intentos de conexiones
+desde IPs diferentes a la utilizada por la PC del administrador:
 
 ```
-
-alert ip $HOME_UNKNOWN any -> any any ( \
-    msg:"Paquete desde IP interna desconocida"; \
-    sid:1000001; \
+alert tcp !10.0.0.112 any -> any 22 ( \
+    msg:"Conexion SSH desde host distinto al del administrador"; \
+    flags:S; \
+    sid:1000101; \
     rev:1;)
-alert ip any any -> $HOME_UNKNOWN any ( \
-    msg:"Paquete hacia IP interna desconocida"; \
-    sid:1000002; \
-    rev:1;)
-
 ```
 
 Hay que tener en cuenta que el router de la empresa ya funciona como un firewall
