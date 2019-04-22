@@ -50,8 +50,6 @@ server {
 ```
 En esta parte del código de nginx se puede ver como se crea el servidor. Debido a que los servidores son solo http, el proxy inverso escucha en el puerto 80 y redirecciona de acuerdo a si la petición fue para la página principal o los archivos haciendo un proxy_pass a la IP indicada o bien puede ser a un dominio determinado en caso que exista un dns.
 
-https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy/ Página de nginx
-
 HTTPS
 -----
 Debido a que http es poco seguro, utilizamos https para darle mayor seguridad a nuestra red. Es decir, que las peticiones que se hacen a los servidores http en realidad estan cifradras en https hasta que llegan al servidor proxy y este se encarga de interpretar. Para ello es necesario crear un certificado que generen la clave de cifrado que permita encriptar la información. A su vez, también es necesario que el servidor no solo trabaje en el puerto 80 de http, sino que también utilice el puerto 443 que es de https.
@@ -68,8 +66,6 @@ Para lograr que el servidor maneje https dentro del código en nginx se debe agr
 ```
 
 En nuestro caso, generamos un certificado firmado por nosotros con el nombre de la companía, lo cual no es lo óptimo ya que para un usuario externo a la red, no existe forma de comprobar la validez del certificado y que realmente somos nosotros los creadores y dueños de la página. La única forma mediante la cual puede estar seguro es si se le proporciona el certificado por otro medio que no sea por internet, por ejemplo por usb en forma presencial. Para poder generarlo se utilizó el comanto openssl req. Para evitar esto, a modo de mejora se podría crear un certificado con alguna certificadora confiable, por ejemplo lets encrypt la cual permite generar certificados gratuitos y confiables para cualquier usuario.
-
-¿Hace falta explicar TLS y ciphers? No hace falta
 
 Snort NIDS
 ==========
