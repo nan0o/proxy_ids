@@ -21,23 +21,13 @@ Sin embargo, el servidor web y archivos se encuentran separados en distintos ser
 
 HTML Y CSS
 ----------
-HTML (Hyper Text Markup Language) es el lenguaje estándar de marcado en el
-diseño de páginas web. Un lenguaje de marcado o marcas es uno en el cual el texto
-va acompañado de marcas o etiquetas que contienen información adicional sobre
-la estructura del documento. 
-CSS (Cascading Style Sheets) describe el formato de presentación de una página
-html. Sirve para ahorrar trabajo cuando se tienen varias páginas web a servir.
-La forma más común de implementación es crear los estilos de los elementos html
-en un archivo externo y después importarlo en el documento.
+HTML (Hyper Text Markup Language) es el lenguaje estándar de marcado en el diseño de páginas web. Un lenguaje de marcado o marcas es uno en el cual el texto va acompañado de marcas o etiquetas que contienen información adicional sobre la estructura del documento. CSS (Cascading Style Sheets) describe el formato de presentación de una página html. Sirve para ahorrar trabajo cuando se tienen varias páginas web a servir. La forma más común de implementación es crear los estilos de los elementos html en un archivo externo y después importarlo en el documento.
 
-El diseño de la página se realizó en HTML5 y en CSS desde cero. Existen varias
-modificaciones en esta versión de HTML como la incorporación de soporte nativo
-para JavaScript, cambios en la semántica de la estructura del documento, etc..
+El diseño de la página se realizó en HTML5 y en CSS desde cero. Existen varias modificaciones en esta versión de HTML como la incorporación de soporte nativo para JavaScript, cambios en la semántica de la estructura del documento, etc..
 
 ![Dif HTML](https://www.hostinger.com/tutorials/wp-content/uploads/sites/2/2017/03/differences-between-html-and-html5.png "Diferencias HTML y HTML5")
 
-En nuestra página, cuando alguien clickea el botón de "Descargas", es redireccionado
-al servidor de archivos que se encuentra en otro host por el proxy reverso. 
+En nuestra página, cuando alguien clickea el botón de "Descargas", es redireccionado al servidor de archivos que se encuentra en otro host por el proxy reverso. 
 
 Reverse Proxy
 =============
@@ -86,11 +76,9 @@ Snort NIDS
 
 Snort se puede utilizar de tres formas:
 
-- Sniffer mode: Lee paquetes presentes en la red y los muestra en la consola,
-  similar a Wireshark.
+- Sniffer mode: Lee paquetes presentes en la red y los muestra en la consola, similar a Wireshark.
 
-- Packet logger mode: Lee paquetes presentes en la red y los guarda en un
-  archivo.
+- Packet logger mode: Lee paquetes presentes en la red y los guarda en un archivo.
 
 - Network Intrusion Detection System (NIDS) mode: Lee paquetes presentes en la
   red y los analiza para determinar si es necesario realizar una acción. Puede
