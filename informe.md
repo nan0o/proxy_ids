@@ -1,21 +1,55 @@
+Problemática
+============
+
+Se planteó el problema de administrar la red de una empresa pequeña y crear un servidor web para la página principal de la empresa y otro en donde se encuentran archivos disponibles para la descarga. Al contar solo con una salida a internet, es necesario el uso de alguna herramienta que permita tener varios servidores en una misma dirección IP. A esto se lo conoce como proxy inverso, una herramienta que permite redireccionar solicitudes dependiendo el destino que tengan estas consultas. Para mayor seguridad, fue solicitado la instalación de un servidor de detección de intrusos, que registre cualquier tipo de evento no autorizado dentro de la red. La red a implementar es la siguiente:
+
+![Diagrama](./varios/diagrama.jpg)
+
+Implementación
+==============
+
 Servidor Web y Archivos
 =======================
 Para implementar el servidor web de la empresa se utilizó Docker. Como servidor
 web, se utilizó nginx, también se podría haber usado apache, pero como ya lo
 probamos decidimos usar nginx.
 Está compuesto por tres archivos:
-- Dockerfile: Contiene los pasos necesarios para el correcto funcionamiento del
+- **Dockerfile**: Contiene los pasos necesarios para el correcto funcionamiento del
   contenedor, como la instalación de nginx, comandos para ejecutar el servidor y
   copia de archivos necesarios.
-- Archivo de configuración de nginx: Este se encarga de configurar nginx de
+- **Archivo de configuración de nginx**: Este se encarga de configurar nginx de
   forma tal que sepa en qué carpeta brindar el servicio y el puerto a escuchar.
-- Página html: Contiene los archivos html, css y las imágenes de la página.
+- **Página html**: Contiene los archivos html, css y las imágenes de la página.
 
 El servidor de archivos es similar, con la diferencia de que no creamos una
 página html, sino que creamos una carpeta con los archivos a servir de la
 empresa. También se utilizó un módulo dentro del archivo de configuración de
 nginx llamado _auto-index_. Este procesa las peticiones que terminan con el
 caracter ('/') y produce una lista de directorios.
+
+Sin embargo, el servidor web y archivos se encuentran separados en distintos
+contenedores, como si fuesen distintos hosts dentro de la empresa, de forma tal
+que el proxy reverso sea el encargado de redirigir el tráfico al correspondiente.
+
+HTML Y CSS
+----------
+HTML (Hyper Text Markup Language) es el lenguaje estándar de marcado en el
+diseño de páginas web. Un lenguaje de marcado o marcas es uno en el cual el texto
+va acompañado de marcas o etiquetas que contienen información adicional sobre
+la estructura del documento. 
+CSS (Cascading Style Sheets) describe el formato de presentación de una página
+html. Sirve para ahorrar trabajo cuando se tienen varias páginas web a servir.
+La forma más común de implementación es crear los estilos de los elementos html
+en un archivo externo y después importarlo en el documento.
+
+El diseño de la página se realizó en HTML5 y en CSS desde cero. Existen varias
+modificaciones en esta versión de HTML como la incorporación de soporte nativo
+para JavaScript, cambios en la semántica de la estructura del documento, etc..
+
+![Dif HTML](https://www.hostinger.com/tutorials/wp-content/uploads/sites/2/2017/03/differences-between-html-and-html5.png "Diferencias HTML y HTML5")
+
+En nuestra página, cuando alguien clickea el botón de "Descargas", es redireccionado
+al servidor de archivos que se encuentra en otro host por el proxy reverso. 
 
 Reverse Proxy
 =============
@@ -54,15 +88,13 @@ Para lograr que el servidor maneje https dentro del código en nginx se debe agr
 
 	ssl_prefer_server_ciphers on;
 ```
-¿Hace falta explicar TLS y ciphers?
+
+En nuestro caso, generamos un certificado firmado por nosotros con el nombre de la companía, lo cual no es lo óptimo ya que para un usuario externo a la red, no existe forma de comprobar la validez del certificado y que realmente somos nosotros los creadores y dueños de la página. La única forma mediante la cual puede estar seguro es si se le proporciona el certificado por otro medio que no sea por internet, por ejemplo por usb en forma presencial. Para poder generarlo se utilizó el comanto openssl req. Para evitar esto, a modo de mejora se podría crear un certificado con alguna certificadora confiable, por ejemplo lets encrypt la cual permite generar certificados gratuitos y confiables para cualquier usuario.
+
+¿Hace falta explicar TLS y ciphers? No hace falta
 
 Snort NIDS
 ==========
-
-Hacer muchos juicios de valor?
-
-Buscar si se puede suar un Cisco para mandar todo el trafico a un puerto como si
-fuera un hub.
 
 Snort se puede utilizar de tres formas:
 
@@ -114,8 +146,43 @@ Nuestra prioridad es detectar tráfico que indique:
 - Que indique algunas cosas que no deberían suceder, por ejemplo tráfico SSH
   desde alguna máquina que no sea la del administrador.
 
+Escribimos nuestras propias reglas básicas que pueden utilizarse para detectar
+este tipo de comportamientos en la red, las reglas se ecriben en un archivo de
+texto que normalmente está ubicado en `/etc/snort/rules/local.rules`
+
+Un ejemplo de regla que genera alertas para tráfico proveniente de la red local
+destinado a un servidor web sería:
+
+```
+alert tcp 10.0.0.0/24 any -> 10.0.0.10 80 ( \
+    msg:"Tráfico desde red local hacia 10.0.0.10:80";
+    sid:1000801; \
+    rev:1;)
+```
+
+La sintaxis de cada regla lleva:
+
+- akjfhsljfalsk (TODO)
+
+```
+
+alert ip $HOME_UNKNOWN any -> any any ( \
+    msg:"Paquete desde IP interna desconocida"; \
+    sid:1000001; \
+    rev:1;)
+alert ip any any -> $HOME_UNKNOWN any ( \
+    msg:"Paquete hacia IP interna desconocida"; \
+    sid:1000002; \
+    rev:1;)
+
+```
+
 Hay que tener en cuenta que el router de la empresa ya funciona como un firewall
 básico y no debería haber tráfico que no sea por los puertos 80 y 443.
+
+Existen disponibles reglas creadas por la comunidad de usuarios en
+https://www.snort.org/downloads
+
 
 Arquitectura
 ------------
