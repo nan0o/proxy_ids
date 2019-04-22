@@ -1,3 +1,13 @@
+Problemática
+============
+
+Se planteó el problema de administrar la red de una empresa pequeña y crear un servidor web de la página principal de la empresa y otro servidor web en donde se encuentran archivos disponibles para la descarga. Al contar solo con una salida a internet, es necesario el uso de alguna herramienta que permita tener varios servidores en una misma dirección IP. A esto se lo conoce como proxy inverso, una herramienta que permite redireccionar solicitudes dependiendo el destino que tengan estas consultas. Para mayor seguridad, fue solicitado la instalación de un servidor de detección de intrusos, para que quede registrado cualquier tipo de evento no autorizado dentro de la red. La red a implementar es la siguiente:
+
+![Diagrama](./varios/diagrama.jpg)
+
+Implementación
+==============
+
 Servidor Web y Archivos
 =======================
 Para implementar el servidor web de la empresa se utilizó Docker. Como servidor
