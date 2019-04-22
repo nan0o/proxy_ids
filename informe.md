@@ -192,3 +192,5 @@ Docker y GNS3
 - **Dockerfile**: Contiene los pasos necesarios para el correcto funcionamiento del
   contenedor, como la instalación de nginx, comandos para ejecutar el servidor y
   copia de archivos necesarios.
+
+![Esquema](./Esquema.png)
