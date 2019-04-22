@@ -59,7 +59,7 @@ Para lograr que el servidor maneje https dentro del código en nginx se debe agr
 	ssl_prefer_server_ciphers on;
 ```
 
-En nuestro caso, generamos un certificado firmado por nosotros con el nombre de la companía, lo cual no es lo óptimo ya que para un usuario externo a la red, no existe forma de comprobar la validez del certificado y que realmente somos nosotros los creadores y dueños de la página. La única forma mediante la cual puede estar seguro es si se le proporciona el certificado por otro medio que no sea por internet, por ejemplo por usb en forma presencial. Por lo que, como mejora se podría crear un certificado con alguna certificadora confiable, por ejemplo lets encrypt la cual permite generar certificados gratuitos y confiables para cualquier usuario.
+En nuestro caso, generamos un certificado firmado por nosotros con el nombre de la companía, lo cual no es lo óptimo ya que para un usuario externo a la red, no existe forma de comprobar la validez del certificado y que realmente somos nosotros los creadores y dueños de la página. La única forma mediante la cual puede estar seguro es si se le proporciona el certificado por otro medio que no sea por internet, por ejemplo por usb en forma presencial. Para poder generarlo se utilizó el comanto openssl req. Para evitar esto, a modo de mejora se podría crear un certificado con alguna certificadora confiable, por ejemplo lets encrypt la cual permite generar certificados gratuitos y confiables para cualquier usuario.
 
 ¿Hace falta explicar TLS y ciphers? No hace falta
 
