@@ -162,7 +162,32 @@ alert tcp 10.0.0.0/24 any -> 10.0.0.10 80 ( \
 
 La sintaxis de cada regla lleva:
 
-- akjfhsljfalsk (TODO)
+- Acción a realizar, en nuestro caso usamos `alert` para almacenar el evento en
+  `/var/log/snort/alerts`.
+
+- Protocolo, puede ser `tcp`, `udp` o `icmp`.
+
+- IP o red de origen, puede ser una red o `any`.
+
+- Puerto de origen, puede ser `any`.
+
+- IP o red de destino, puede ser una red o `any`.
+
+- Puerto de destino, puede ser `any`.
+
+- Luego entre paréntesis se colocan las opciones, algunas de ellas son:
+
+    - msg: Descripción
+
+  ```
+  (msg: "SCAN SYN FIN"; flow:stateless ; flags: SF,12 ; reference: ; classtype: ; sid: ; rev: )
+  ```
+  - msg: es lo que envias al admin cuando ocurre la regla
+  - flow: established (TCP established), not established (no TCP connection established), stateless (either established or not established)
+  - flags: en el caso de tcp puede ser de tipo SYN, FIN, PSH, URG, RST, or ACK. En el caso de ejemplo como quiere los de SYN y FIN pone SF y el 12 es notacion vieja, significa que ignoras eso. Ahora se usa por ejemplo CE en vez del doce que indica que ignora CWR (bit 1 reservado) y ECN (bit 2 reservado)
+  - reference: sirve para obtener mas info de los ataques, porque te manda a una pagina que vos pongas ahi donde se encuentra el IDS del ataque.
+  - classtype: es como que ya te vas al pasto, por que es como que estableces el tipo de ataque y la prioridad que hay de 1 a 4.
+  - sid y rev se utilizan para identificar el numero de la regla. Es obligatorio cuando creas una regla y se usan numeros de sid mayores a 1 millon porque para abajo creo que estan todas reservadas.
 
 ```
 

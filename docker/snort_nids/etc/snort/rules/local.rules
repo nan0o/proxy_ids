@@ -36,7 +36,7 @@ alert tcp !$ADMIN_HOST any -> any 22 ( \
 # Muchas solicitudes en 10 segundos
 
 alert tcp $EXTERNAL_NET any -> $PROXY_HOST any ( \
-    msg:"Mas de 300 solicitudes en 10 segundos desde una misma IP";
+    msg:"Mas de 10000 solicitudes en 10 segundos desde una misma IP"; \
     detection_filter:track by_src, count 300, seconds 10; \
     sid:1000201; \
     rev:1;)
@@ -45,6 +45,6 @@ alert tcp $EXTERNAL_NET any -> $PROXY_HOST any ( \
 # tiene solamente los puertos abiertos hacia el proxy
 
 alert tcp !$PROXY_HOST any -> [$WEB_HOST,$FILE_HOST] 80 ( \
-    msg:"Solicitud HTTP directa sin pasar por el proxy";
+    msg:"Solicitud HTTP directa sin pasar por el proxy"; \
     sid:1000301; \
     rev:1;)
