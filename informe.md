@@ -63,11 +63,6 @@ Para lograr que el servidor maneje https dentro del código en nginx se debe agr
 Snort NIDS
 ==========
 
-Hacer muchos juicios de valor?
-
-Buscar si se puede suar un Cisco para mandar todo el trafico a un puerto como si
-fuera un hub.
-
 Snort se puede utilizar de tres formas:
 
 - Sniffer mode: Lee paquetes presentes en la red y los muestra en la consola,
@@ -118,11 +113,43 @@ Nuestra prioridad es detectar tráfico que indique:
 - Que indique algunas cosas que no deberían suceder, por ejemplo tráfico SSH
   desde alguna máquina que no sea la del administrador.
 
+Escribimos nuestras propias reglas básicas que pueden utilizarse para detectar
+este tipo de comportamientos en la red, las reglas se ecriben en un archivo de
+texto que normalmente está ubicado en `/etc/snort/rules/local.rules`
+
+Un ejemplo de regla que genera alertas para tráfico proveniente de la red local
+destinado a un servidor web sería:
+
+```
+alert tcp 10.0.0.0/24 any -> 10.0.0.10 80 ( \
+    msg:"Tráfico desde red local hacia 10.0.0.10:80";
+    sid:1000801; \
+    rev:1;)
+```
+
+La sintaxis de cada regla lleva:
+
+- akjfhsljfalsk (TODO)
+
+```
+
+alert ip $HOME_UNKNOWN any -> any any ( \
+    msg:"Paquete desde IP interna desconocida"; \
+    sid:1000001; \
+    rev:1;)
+alert ip any any -> $HOME_UNKNOWN any ( \
+    msg:"Paquete hacia IP interna desconocida"; \
+    sid:1000002; \
+    rev:1;)
+
+```
+
 Hay que tener en cuenta que el router de la empresa ya funciona como un firewall
 básico y no debería haber tráfico que no sea por los puertos 80 y 443.
 
 Existen disponibles reglas creadas por la comunidad de usuarios en
 https://www.snort.org/downloads
+
 
 Arquitectura
 ------------
