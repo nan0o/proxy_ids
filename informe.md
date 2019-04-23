@@ -1,9 +1,27 @@
 Problemática
 ============
 
-Se planteó el problema de administrar la red de una empresa pequeña y crear un servidor web para la página principal de la empresa y otro en donde se encuentran archivos disponibles para la descarga. Al contar solo con una salida a internet, es necesario el uso de alguna herramienta que permita tener varios servidores en una misma dirección IP. A esto se lo conoce como proxy inverso, una herramienta que permite redireccionar solicitudes dependiendo el destino que tengan estas consultas. Para mayor seguridad, fue solicitado la instalación de un servidor de detección de intrusos, que registre cualquier tipo de evento no autorizado dentro de la red. La red a implementar es la siguiente:
+Se planteó el problema de administrar la red de una empresa pequeña y crear un
+servidor web para la página principal de la empresa y otro en donde se
+encuentran archivos disponibles para la descarga. Al contar solo con una salida
+a internet, es necesario el uso de alguna herramienta que permita tener varios
+servidores en una misma dirección IP. A esto se lo conoce como proxy inverso,
+una herramienta que permite redireccionar solicitudes dependiendo el destino que
+tengan estas consultas. Para mayor seguridad, fue solicitado la instalación de
+un servidor de detección de intrusos, que registre cualquier tipo de evento no
+autorizado dentro de la red. La red a implementar es la siguiente:
 
 ![Diagrama](./varios/diagrama.jpg)
+
+Es importante tener en cuenta que se considera que la implementación se
+realizará en una empresa pequeña, por lo tanto lo más probable es que no haya un
+administrador disponible todo el tiempo para garantizar el correcto
+funcionamiento de la red.
+
+Suponiendo que el administrador sólo está disponible unas pocas horas semanales,
+es importante disponer de software de monitoreo que registre el estado de la red
+y detecte comportamientos unusuales ya sea para notificar al administrador
+inmediatamente para registrar los eventos para su posterior análisis.
 
 Implementación
 ==============
@@ -70,11 +88,13 @@ En nuestro caso, generamos un certificado firmado por nosotros con el nombre de 
 Snort NIDS
 ==========
 
-Snort se puede utilizar de tres formas:
+Snort es un servidor sniffer que se puede utilizar de varias formas:
 
-- Sniffer mode: Lee paquetes presentes en la red y los muestra en la consola, similar a Wireshark.
+- Sniffer mode: Lee paquetes presentes en la red y los muestra en la consola,
+  similar a Wireshark.
 
-- Packet logger mode: Lee paquetes presentes en la red y los guarda en un archivo.
+- Packet logger mode: Lee paquetes presentes en la red y los guarda en un
+  archivo.
 
 - Network Intrusion Detection System (NIDS) mode: Lee paquetes presentes en la
   red y los analiza para determinar si es necesario realizar una acción. Puede
@@ -88,42 +108,37 @@ Snort se puede utilizar de tres formas:
       firewall.
 
 Nosotros utilizamos y recomendamos el modo Pasivo, al menos en un principio ya
-que al utilizarse en modo Inline se necesita mucho cuidado, un gran
-mantenimiento y mucho trabajo. Un error de configuración, o una falla en el
-servidor por otras causas dejaría fuera de línea al sitio web de la empresa.
-Además pequeños errores de configuración pueden significar problemas para sólo
-algunos usuarios y sería difícil darse cuenta y corregirlo.
+que Snort necesita mucho cuidado, un gran mantenimiento y mucho trabajo. Un
+pequeño error de configuración, o una falla en el servidor por otras causas
+dejaría fuera de línea al sitio web de la empresa.
 
-Suponemos que es una empresa chica y no dispondrá de un administrador disponible
-todo el tiempo, por ejemplo que se tenga un administrador que trabaja en varias
-empresas o que tiene otros trabajos dentro de la empresa, y le dedica solamente
-2hs por semana a los servidores. Por eso nos parece útil tener un NIDS que
-genere alertas para notificar al administrador o que las almacene para que la
-semana siguiente el administrador las revise.
+El servidor Snort es usado sólo para alertar sobre comportamientos sospechosos a
+partir de las reglas escritas en los archivos de configuración. De esta forma el
+administrador es notificado de estas alertas cuando vuelve al trabajo.
 
-Por lo tanto lo usamos sólo para alertar (notificar) al administrador sobre
-paquetes sospechosos, los paquetes a alertar se determinan a partir de reglas
-escritas por el administrador.
+Algunas de las alertas que consideramos importantes en una primera instancia
+son:
 
-Nuestra prioridad es detectar tráfico que indique:
-
-- Que indique que ya se ha comprometido un servidor dentro de la red, por
-  ejemplo si uno de los servidores está originando tráfico UDP, o si hay tráfico
-  desde y hacia una IP local que no debería existir.
+- Que ya se ha comprometido un servidor dentro de la red, por ejemplo si uno de
+  los servidores está originando tráfico que normalmente no produce, o si hay
+  tráfico desde y hacia una IP local que no se corresponde a ninguno de los
+  servidores conocidos.
 
 - Que indique que desde fuera se está realizando un escaneo de la red, por
   ejemplo si hay muchas solicitudes simultáneas, o si están accediendo a muchas
-  URLs que dan 404.
+  TODO.
 
 - Que indique algunas cosas que no deberían suceder, por ejemplo tráfico SSH
   desde alguna máquina que no sea la del administrador.
 
 Hay que tener en cuenta que el router de la empresa ya funciona como un firewall
-básico y no debería haber tráfico que no sea por los puertos 80 y 443.
+básico y no debería haber tráfico entrante que no sea por los puertos 80 y 443.
+Además, al utilizar port forwarding este tráfico va dirigido exclusivamente al
+proxy.
 
-Escribimos nuestras propias reglas básicas que pueden utilizarse para detectar
-este tipo de comportamientos en la red, las reglas se ecriben en un archivo de
-texto que normalmente está ubicado en `/etc/snort/rules/local.rules`
+En el anexo hay listadas algunas reglas básicas que pueden utilizarse para
+detectar este tipo de comportamientos en la red, las reglas se ecriben en un
+archivo de texto que normalmente está ubicado en `/etc/snort/rules/local.rules`
 
 Un ejemplo de regla que genera alertas para tráfico proveniente de la red local
 destinado a un servidor web sería:
@@ -167,7 +182,7 @@ La sintaxis de cada regla incluye:
       algunas opciones que permiten restringir la búsqueda al header, uri,
       cuerpo, etc.
 
-Por ejemplo las conexiones SSH se deberían originar normalmente sólo desde ls PC
+Por ejemplo las conexiones SSH se deberían originar normalmente sólo desde la PC
 del administrador, puede ser útil generar alertas para intentos de conexiones
 desde IPs diferentes a la utilizada por la PC del administrador:
 
@@ -179,9 +194,8 @@ alert tcp !10.0.0.112 any -> any 22 ( \
     rev:1;)
 ```
 
-Existen disponibles reglas creadas por la comunidad de usuarios en
-https://www.snort.org/downloads
-
+Existen disponibles gran cantidad de reglas creadas por la comunidad de usuarios
+en el sitio oficial de Snort.
 
 Arquitectura
 ------------
