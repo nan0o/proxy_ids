@@ -192,11 +192,30 @@ dominio en un servidor DNS. Por lo tanto la lista de requerimientos es:
 - Recomendamos obtener un dominio `.com.ar`, actualmente el costo es de $270, la
   renovación tiene el mismo costo y debe realizarse una vez al año.
 
-- Se debe delegar el dominio a un servidor DNS
+- Se debe delegar el dominio a un servidor DNS, cuyo costo mínimo comienza a
+  partir de los 20USD. Luego se debe configurar el servidor DNS para que apunte
+  a la IP pública de la empresa.
 
 Se debe usar un Hub pero recomendamos utilizar un switch que permita mostrar
 todo el tráfico de la red en una de sus bocas para conectar ahí el servidor de
 Snort.
+
+Por ejemplo para monitorear el tráfico de todas las interfaces en el puerto
+gigabitEthernet 1/1 se deben utilizar los comandos:
+
+```
+Switch>enable
+Switch#configure terminal
+
+Switch(config)#monitor session 1 source interface gigabitEthernet 0/0
+Switch(config)#monitor session 1 source interface gigabitEthernet 0/1
+Switch(config)#monitor session 1 source interface gigabitEthernet 0/2
+...
+
+Switch(config)#monitor session 1 destination interface gigabitEthernet 1/1
+```
+
+https://www.cisco.com/c/en/us/support/docs/switches/catalyst-6500-series-switches/10570-41.html
 
 http://manual-snort-org.s3-website-us-east-1.amazonaws.com/
 
