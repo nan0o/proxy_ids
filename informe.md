@@ -187,7 +187,12 @@ Arquitectura
 ------------
 
 El router tiene una IP pública y fija para permitir la configuración de un
-dominio en un servidor DNS
+dominio en un servidor DNS. Por lo tanto la lista de requerimientos es:
+
+- Recomendamos obtener un dominio `.com.ar`, actualmente el costo es de $270, la
+  renovación tiene el mismo costo y debe realizarse una vez al año.
+
+- Se debe delegar el dominio a un servidor DNS
 
 Se debe usar un Hub pero recomendamos utilizar un switch que permita mostrar
 todo el tráfico de la red en una de sus bocas para conectar ahí el servidor de

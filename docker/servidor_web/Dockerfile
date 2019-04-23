@@ -10,4 +10,9 @@ RUN ln -s /etc/nginx/sites-available/servir_pagina /etc/nginx/sites-enabled/serv
 
 COPY html /var/www/
 
-CMD ["/usr/sbin/sshd","-D","&",";","nginx","-g","daemon off;"]
+RUN ssh-keygen -A \
+    && echo root:serverWeb | chpasswd
+COPY sshd_config /etc/ssh/sshd_config
+RUN mkdir /run/sshd
+
+CMD /usr/sbin/sshd -D & nginx -g "daemon off;"
