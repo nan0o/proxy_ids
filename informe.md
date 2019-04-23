@@ -97,7 +97,7 @@ algunos usuarios y sería difícil darse cuenta y corregirlo.
 Suponemos que es una empresa chica y no dispondrá de un administrador disponible
 todo el tiempo, por ejemplo que se tenga un administrador que trabaja en varias
 empresas o que tiene otros trabajos dentro de la empresa, y le dedica solamente
-2hs por semana a los servidores. Por eso nos parece útil tener un NIDS que
+dos horas por semana a los servidores. Por eso nos parece útil tener un NIDS que
 genere alertas para notificar al administrador o que las almacene para que la
 semana siguiente el administrador las revise.
 
@@ -105,7 +105,7 @@ Por lo tanto lo usamos sólo para alertar (notificar) al administrador sobre
 paquetes sospechosos, los paquetes a alertar se determinan a partir de reglas
 escritas por el administrador.
 
-Nuestra prioridad es detectar tráfico que indique:
+Nuestra prioridad es detectar tráfico:
 
 - Que indique que ya se ha comprometido un servidor dentro de la red, por
   ejemplo si uno de los servidores está originando tráfico UDP, o si hay tráfico
@@ -167,7 +167,7 @@ La sintaxis de cada regla incluye:
       algunas opciones que permiten restringir la búsqueda al header, uri,
       cuerpo, etc.
 
-Por ejemplo las conexiones SSH se deberían originar normalmente sólo desde ls PC
+Por ejemplo las conexiones SSH se deberían originar normalmente sólo desde la PC
 del administrador, puede ser útil generar alertas para intentos de conexiones
 desde IPs diferentes a la utilizada por la PC del administrador:
 
