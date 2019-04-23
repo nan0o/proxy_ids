@@ -118,6 +118,9 @@ Nuestra prioridad es detectar tráfico que indique:
 - Que indique algunas cosas que no deberían suceder, por ejemplo tráfico SSH
   desde alguna máquina que no sea la del administrador.
 
+Hay que tener en cuenta que el router de la empresa ya funciona como un firewall
+básico y no debería haber tráfico que no sea por los puertos 80 y 443.
+
 Escribimos nuestras propias reglas básicas que pueden utilizarse para detectar
 este tipo de comportamientos en la red, las reglas se ecriben en un archivo de
 texto que normalmente está ubicado en `/etc/snort/rules/local.rules`
@@ -132,7 +135,7 @@ alert tcp 10.0.0.0/24 any -> 10.0.0.10 80 ( \
     rev:1;)
 ```
 
-La sintaxis de cada regla lleva:
+La sintaxis de cada regla incluye:
 
 - Acción a realizar, en nuestro caso usamos `alert` para almacenar el evento en
   `/var/log/snort/alerts`.
@@ -159,6 +162,11 @@ La sintaxis de cada regla lleva:
     - flags: En el caso de TCP permite especificar flags presentes en el
       paquete.
 
+    - content: Realiza una búsqueda en el contenido del paquete, puede realizar
+      búsqueda de texto o de datos binarios. En el caso de HTTP se pueden usar
+      algunas opciones que permiten restringir la búsqueda al header, uri,
+      cuerpo, etc.
+
 Por ejemplo las conexiones SSH se deberían originar normalmente sólo desde ls PC
 del administrador, puede ser útil generar alertas para intentos de conexiones
 desde IPs diferentes a la utilizada por la PC del administrador:
@@ -171,15 +179,20 @@ alert tcp !10.0.0.112 any -> any 22 ( \
     rev:1;)
 ```
 
-Hay que tener en cuenta que el router de la empresa ya funciona como un firewall
-básico y no debería haber tráfico que no sea por los puertos 80 y 443.
-
 Existen disponibles reglas creadas por la comunidad de usuarios en
 https://www.snort.org/downloads
 
 
 Arquitectura
 ------------
+
+El router tiene una IP pública y fija para permitir la configuración de un
+dominio en un servidor DNS. Por lo tanto la lista de requerimientos es:
+
+- Recomendamos obtener un dominio `.com.ar`, actualmente el costo es de $270, la
+  renovación tiene el mismo costo y debe realizarse una vez al año.
+
+- Se debe delegar el dominio a un servidor DNS
 
 Se debe usar un Hub pero recomendamos utilizar un switch que permita mostrar
 todo el tráfico de la red en una de sus bocas para conectar ahí el servidor de
