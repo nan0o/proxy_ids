@@ -192,3 +192,18 @@ Simulación
 Debido a la imposibilidad de implementarlo físicamente por el momento, se realizó una simulación de la arquitectura de la red en el programa GNS3, lo cual permitió observar el funcionamiento de la misma. Para cada uno de los servidores presentes en la red se utilizó la herramienta de Docker, que genera un contenedor a partir de un archivo *Dockerfile* que contiene los pasos necesarios para el correcto funcionamiento, como por ejemplo la instalación de nginx, comandos para ejecutar el servidor y copia de archivos necesarios.
 
 ![Esquema](./Esquema.png)
+
+Conclusión
+==========
+
+Bajo la experiencia y los resultados obtenidos, se determinó factible la
+implementación de hosteo de varios servidores en la red de una empresa mediante
+la utilización de un proxy reverso, sumándole seguridad de red con NIDS. El
+proxy reverso permite mayor transparencia al usuario final y para el administrador
+de la red simplifica la redirección de peticiones HTTP al host deseado. NIDS nos
+pareció una herramienta útil de detección de intrusos y control de red. No 
+funciona como firewall, pero permite al encargado de la red estar al tanto del
+estado de la red y que no esté ocurriendo nada fuera de lo normal. A modo futuro,
+se propone profundizar en la seguridad de la red, agregando una interfaz gráfica
+al NIDS, para facilitar el monitoreo de la red, colocar HIDS en cada uno de
+los hosts de la red, e implementar un firewall.
