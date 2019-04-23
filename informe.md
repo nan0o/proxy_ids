@@ -247,9 +247,8 @@ implementación de hosteo de varios servidores en la red de una empresa mediante
 la utilización de un proxy reverso, sumándole seguridad de red con NIDS. El
 proxy reverso permite mayor transparencia al usuario final y para el administrador
 de la red simplifica la redirección de peticiones HTTP al host deseado. NIDS nos
-pareció una herramienta útil de detección de intrusos y control de red. No 
-funciona como firewall, pero permite al encargado de la red estar al tanto del
-estado de la red y que no esté ocurriendo nada fuera de lo normal. A modo futuro,
-se propone profundizar en la seguridad de la red, agregando una interfaz gráfica
-al NIDS, para facilitar el monitoreo de la red, colocar HIDS en cada uno de
-los hosts de la red, e implementar un firewall.
+pareció una herramienta útil de detección de intrusos y control de red. Permite al
+encargado de la red estar al tanto del estado de la red y que no esté ocurriendo 
+nada fuera de lo normal. A modo futuro, se propone profundizar en la seguridad de
+la red, agregando una interfaz gráfica al NIDS, para facilitar el monitoreo de la
+red, colocar HIDS en cada uno de los hosts de la red, e implementar un firewall.
