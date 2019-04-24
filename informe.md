@@ -37,6 +37,17 @@ El servidor de archivos es similar, con la diferencia de que no creamos una pág
 
 Sin embargo, el servidor web y archivos se encuentran separados en distintos servidores, es decir, como distintos hosts dentro de la empresa, de forma tal que el proxy reverso se encargue de redirigir el tráfico al correspondiente.
 
+La configuración del archivo de la página a brindar en nginx es bastante simple, a continuación se muestra la del servidor
+de archivos:
+
+```
+server {
+    listen 80; # puerto (ip es opcional)
+    location / { 
+        root /var/www/; # carpeta desde donde empezar a buscar
+    }
+}
+```
 HTML Y CSS
 ----------
 HTML (Hyper Text Markup Language) es el lenguaje estándar de marcado en el diseño de páginas web. Un lenguaje de marcado o marcas es uno en el cual el texto va acompañado de marcas o etiquetas que contienen información adicional sobre la estructura del documento. CSS (Cascading Style Sheets) describe el formato de presentación de una página html. Sirve para ahorrar trabajo cuando se tienen varias páginas web a servir. La forma más común de implementación es crear los estilos de los elementos html en un archivo externo y después importarlo en el documento.
