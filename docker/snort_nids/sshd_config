@@ -1,0 +1,14 @@
+Protocol 2
+PermitRootLogin yes
+Port 22
+ChallengeResponseAuthentication no
+X11Forwarding no
+MaxAuthTries 2
+MaxStartups 5
+IgnoreRhosts yes
+RhostsRSAAuthentication no
+HostbasedAuthentication no
+PermitEmptyPasswords no
+UsePAM yes
+PasswordAuthentication yes
+GSSAPIAuthentication no

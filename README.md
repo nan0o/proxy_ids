@@ -1,4 +1,5 @@
 # proxy_ids
+
 trabajo final de redes de informacion
 
 ## Varios
@@ -89,6 +90,7 @@ cd docker
 docker build -t reverse_proxy ./reverse_proxy
 docker build -t servidor_web ./servidor_web
 docker build -t servidor_archivos ./servidor_archivos
+docker build -t snort_nids ./docker/snort_nids
 ```
 
 Después dentro de GNS3 hay que importar esos Dockers y darles IPs haciendo click
@@ -101,7 +103,7 @@ se duplica la máquina modificada y se borra la anterior, de esa forma estamos
 creando una máquina nueva que tiene la nueva build de Docker pero que además
 mantiene las configuraciones de red hechas en "Edit config".
 
-## Comando openssl
+### Comando openssl
 
 ```
 openssl req -x509 -sha256 -newkey rsa:4096 -nodes -keyout teleconet.mbernardi.com.ar.key -out teleconet.mbernardi.com.ar.crt -days 365 -subj "/CN=AR/ST=Cordoba/L=Rio Cuarto/O=teleconet/OU=tn/CN=teleconet.mbernadi.com.ar"
@@ -115,3 +117,39 @@ openssl req -x509 -sha256 -newkey rsa:4096 -nodes -keyout teleconet.mbernardi.co
 - -out el nombre del certificado a la salida
 - -days la duración de validez del certificado
 - -subj es para darle lo que necesitas para crear el certificado (pais, provincia, ciudad, empresa,etc)
+
+## SNORT
+
+Para las configuraciones partimos de lo que venía en `/etc/snort/` en Fedora, no
+había ninguna regla.
+
+### Reglas
+
+```
+<rule action> <protocol> [!]<source ip> [!]<source port> <direction> <dest ip> <dest port> <rule options> (aca van otras cosas que son las que ejecuta)
+```
+  
+  rule action puede ser:
+  - alert: manda una alerta al administrador
+  - log: es una segunda opcion, cuando no queres mandar una alerta pero queres dejar registrado un evento en especial
+  - pass: en un lado lei que hace drop y en otro que deja pasar derecho, creo que tiene mas sentido la segunda
+  - activate: si ocurre, se activan otras reglas
+  
+  protocol (TCP, UDP, ICMP para el ping)
+  
+  source ip, source port, dest ip y dest port: es transparente. Si le pones el signo de exclamacion (!) adelante invierte la regla. Si queres un rango de puertos por ejemplo le pones como 1:10. Si queres cualquier ip o puerto le pones "any". Para la ip se le puede poner 192.168.0.1/24
+  
+  Para el caso que en el campo de source ip, podes definir variables como listas o solo una ip en el archivo snort.conf y despues cuando creas la regla en el archivo .rules le pones $Nombre_variable que creaste.
+  
+  direction va "->". Eso significa que ves lo que vaya de la "source ip source port" a "dest ip dest port" 
+  
+  Entre paréntesis indicás lo que queres hacer con la regla por ejemplo si tenes 
+  ```
+  (msg: "SCAN SYN FIN"; flow:stateless ; flags: SF,12 ; reference: ; classtype: ; sid: ; rev: )
+  ```
+  - msg: es lo que envias al admin cuando ocurre la regla
+  - flow: established (TCP established), not established (no TCP connection established), stateless (either established or not established)
+  - flags: en el caso de tcp puede ser de tipo SYN, FIN, PSH, URG, RST, or ACK. En el caso de ejemplo como quiere los de SYN y FIN pone SF y el 12 es notacion vieja, significa que ignoras eso. Ahora se usa por ejemplo CE en vez del doce que indica que ignora CWR (bit 1 reservado) y ECN (bit 2 reservado)
+  - reference: sirve para obtener mas info de los ataques, porque te manda a una pagina que vos pongas ahi donde se encuentra el IDS del ataque.
+  - classtype: es como que ya te vas al pasto, por que es como que estableces el tipo de ataque y la prioridad que hay de 1 a 4.
+  - sid y rev se utilizan para identificar el numero de la regla. Es obligatorio cuando creas una regla y se usan numeros de sid mayores a 1 millon porque para abajo creo que estan todas reservadas.
