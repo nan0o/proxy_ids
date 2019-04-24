@@ -1,5 +1,5 @@
 # Snort in Docker
-FROM ubuntu:14.04.4
+FROM ubuntu:18.04
 
 RUN apt-get update && \
     apt-get install -y \
@@ -18,7 +18,7 @@ RUN apt-get update && \
         libnetfilter-queue1 \
         tcpdump \
         unzip \
-		libluajit-5.1-dev \
+        libluajit-5.1-dev \
         vim && pip install -U pip dpkt snortunsock
 
 # Define working directory.
@@ -36,7 +36,7 @@ RUN wget https://luajit.org/download/LuaJIT-${LUAJIT_VERSION}.tar.gz \
     && tar xvfz LuaJIT-${LUAJIT_VERSION}.tar.gz \
     && cd LuaJIT-${LUAJIT_VERSION} \
     && make; make install \
-	&& ln -s /usr/local/include/luajit-2.0/* /usr/local/include/
+    && ln -s /usr/local/include/luajit-2.0/* /usr/local/include/
 
 ENV SNORT_VERSION 2.9.12
 RUN wget https://www.snort.org/downloads/snort/snort-${SNORT_VERSION}.tar.gz \
